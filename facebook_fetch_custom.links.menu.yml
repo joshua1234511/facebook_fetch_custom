@@ -1,0 +1,6 @@
+facebook_fetch_custom.admin:
+  title: 'Facebook fetch module settings'
+  description: 'Help on various functions for this module.'
+  parent: system.admin_config_development
+  route_name: facebook_fetch_custom.help
+  weight: 100

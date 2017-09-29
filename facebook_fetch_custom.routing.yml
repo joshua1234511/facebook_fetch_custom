@@ -1,0 +1,15 @@
+facebook_fetch_custom.settings:
+  path: '/admin/config/facebook-fetch/settings'
+  defaults:
+    _form: '\Drupal\facebook_fetch_custom\Form\FacebookFetchCustomForm'
+    _title: 'Facebook Fetch Configuration'
+  requirements:
+    _permission: 'administer site configuration'
+
+facebook_fetch_custom.fetch_all:
+  path: '/facebook-fetch-custom/fetch-all'
+  defaults:
+    _controller: '\Drupal\facebook_fetch_custom\Controller\FacebookController::fetchAll'
+    _title: 'All Post'
+  requirements:
+    _permission: 'administer site configuration'
