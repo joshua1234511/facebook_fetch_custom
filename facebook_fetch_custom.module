@@ -1,0 +1,54 @@
+<?php
+function publish_to_facebook($nid){
+  $node = node_load($nid);
+  if(!empty($node)){
+    require_once __DIR__ . '/social/php-graph-sdk-5.x/src/Facebook/autoload.php';
+    $access_token = variable_get('access_token','');
+    $app_id = variable_get('appId','');
+    $app_secret = variable_get('secret','');
+    $fb = new \Facebook\Facebook([
+      'app_id' => $app_id,
+      'app_secret' => $app_secret,
+      'default_graph_version' => 'v2.10',
+      'default_access_token' => $access_token, // optional
+    ]);
+    try {
+      // Get the \Facebook\GraphNodes\GraphUser object for the current user.
+      // If you provided a 'default_access_token', the '{access-token}' is optional.
+      $response = $fb->get('/me', $access_token);
+    } catch(\Facebook\Exceptions\FacebookResponseException $e) {
+      // When Graph returns an error
+      echo 'Graph returned an error: ' . $e->getMessage();
+      exit;
+    } catch(\Facebook\Exceptions\FacebookSDKException $e) {
+      // When validation fails or other local issues
+      echo 'Facebook SDK returned an error: ' . $e->getMessage();
+      exit;
+    }
+    $me = $response->getGraphUser();
+    echo 'Logged in as ' . $me->getName();
+    
+    // $message = $node->title.' check at '.url(drupal_get_path_alias('node/' . $nid));
+    // $image = file_create_url($node->field_image['und'][0]['uri']);
+    // $data['picture'] = $image;
+    // $data['link'] = url(drupal_get_path_alias('node/' . $nid));
+    // $data['message'] = $message;
+    // $data['caption'] = "Bits Events Listing";
+    // $data['description'] =  substr($node->body['und'][0]['value'],0,300);
+    // $data['access_token'] = $page_access_token;
+    // $post_url = 'https://graph.facebook.com/'.$page_id.'/feed';
+    // $ch = curl_init();
+    // curl_setopt($ch, CURLOPT_URL, $post_url);
+    // curl_setopt($ch, CURLOPT_POST, 1);
+    // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    // $return = curl_exec($ch);
+    // curl_close($ch);
+    // var_dump($return);
+    // if(!empty($code['code']) && $code['code'] == 200){
+    //   drupal_set_message('Post to twitter successful');
+    // }
+  }
+  // drupal_goto('admin/bitsevents/social');
+  // drupal_exit();
+}
